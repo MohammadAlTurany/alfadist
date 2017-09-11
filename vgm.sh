@@ -9,11 +9,14 @@ build_requires:
   - CMake
 ---
 #!/bin/bash -e
-cmake "$SOURCEDIR" \
-  -DCMAKE_CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
-  -DCMAKE_INSTALL_LIBDIR="lib"                 \
-  -DCMAKE_INSTALL_PREFIX="$INSTALLROOT"        \
+cmake                                                 \
+  ${C_COMPILER:+-DCMAKE_C_COMPILER=$C_COMPILER}       \
+  ${CXX_COMPILER:+-DCMAKE_CXX_COMPILER=$CXX_COMPILER} \
   ${CXXSTD:+-DCMAKE_CXX_STANDARD=$CXXSTD}
+  -DCMAKE_CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}        \
+  -DCMAKE_INSTALL_LIBDIR="lib"                        \
+  -DCMAKE_INSTALL_PREFIX="$INSTALLROOT"               \
+  "$SOURCEDIR"
 
 make ${JOBS+-j $JOBS} install
 
