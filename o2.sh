@@ -64,7 +64,11 @@ esac
 if [[ $ALIBUILD_O2_TESTS ]]; then
   CXXFLAGS="${CXXFLAGS} -Werror"
 fi
-cmake $SOURCEDIR -DCMAKE_INSTALL_PREFIX=$INSTALLROOT                                              \
+cmake                                                             \
+      ${C_COMPILER:+-DCMAKE_C_COMPILER=$C_COMPILER}               \
+      ${CXX_COMPILER:+-DCMAKE_CXX_COMPILER=$CXX_COMPILER}         \
+      -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE                        \
+      -DCMAKE_INSTALL_PREFIX=$INSTALLROOT                         \
       -DCMAKE_MODULE_PATH="$SOURCEDIR/cmake/modules;$FAIRROOT_ROOT/share/fairbase/cmake/modules;$FAIRROOT_ROOT/share/fairbase/cmake/modules_old"  \
       -DFairRoot_DIR=$FAIRROOT_ROOT                               \
       -DALICEO2_MODULAR_BUILD=ON                                  \
@@ -83,11 +87,12 @@ cmake $SOURCEDIR -DCMAKE_INSTALL_PREFIX=$INSTALLROOT                            
       ${PROTOBUF_ROOT:+-DProtoBuf_DIR=$PROTOBUF_ROOT}             \
       ${GSL_ROOT:+-DGSL_DIR=$GSL_ROOT}                            \
       ${PYTHIA_ROOT:+-DPYTHIA8_INCLUDE_DIR=$PYTHIA_ROOT/include}  \
-      ${CMAKE_BUILD_TYPE:+-DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE}   \
       -DMS_GSL_INCLUDE_DIR=$MS_GSL_ROOT/include                   \
       -DCMAKE_EXPORT_COMPILE_COMMANDS=ON                          \
       ${CXXSTD:+-DCMAKE_CXX_STANDARD=$CXXSTD}                     \
       ${O2HLTCATRACKING_VERSION:+-DO2_TPCCA_TRACKING_LIB_DIR=$O2HLTCATRACKING_ROOT}
+      -DCMAKE_EXPORT_COMPILE_COMMANDS=ON                          \
+      $SOURCEDIR
 
 if [[ $GIT_TAG == master ]]; then
   CONTINUE_ON_ERROR=true
