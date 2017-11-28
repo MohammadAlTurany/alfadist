@@ -1,4 +1,4 @@
-#package: nanomsg
+package: nanomsg
 version: v1.0.0+git_%(short_hash)s
 tag: c52f1bedca6b72fb31b473929d99f2fe90a13445
 source: https://github.com/nanomsg/nanomsg
