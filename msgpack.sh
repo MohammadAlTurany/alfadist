@@ -1,6 +1,6 @@
 package: msgpack
-version: cpp-3.0.1
-source: https://github.com/msgpack/msgpack-c
+version: cpp-2.1.5-fairroot
+source: https://github.com/FairRootGroup/msgpack-c
 build_requires:
  - CMake
  - "GCC-Toolchain:(?!osx)"
