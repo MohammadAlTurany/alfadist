@@ -32,7 +32,9 @@ cmake $SOURCEDIR                                                 \
       ${DDS_ROOT:+-DDDS_ROOT=$DDS_ROOT}                          \
       -DDISABLE_COLOR=ON                                         \
       -DBUILD_DDS_PLUGIN=ON                                      \
-      -DBUILD_NANOMSG_TRANSPORT=ON
+      -DBUILD_NANOMSG_TRANSPORT=ON                               \
+      -DCMAKE_INSTALL_LIBDIR=lib                                 \
+      -DCMAKE_INSTALL_BINDIR=bin
 
 cmake --build . ${JOBS:+-- -j$JOBS}
 ctest ${JOBS:+-j$JOBS}
@@ -58,6 +60,9 @@ module load BASE/1.0                                                            
             ${DDS_VERSION:+DDS/$DDS_VERSION-$DDS_REVISION}
 # Our environment
 setenv FAIRMQ_ROOT \$::env(BASEDIR)/$PKGNAME/\$version
+prepend-path PATH \$::env(FAIRMQ_ROOT)/bin
+prepend-path LD_LIBRARY_PATH \$::env(FAIRMQ_ROOT)/lib
+$([[ ${ARCHITECTURE:0:3} == osx ]] && echo "prepend-path DYLD_LIBRARY_PATH \$::env(FAIRMQ_ROOT)/lib")
 EoF
 MODULEDIR="$INSTALLROOT/etc/modulefiles"
 mkdir -p $MODULEDIR && rsync -a --delete etc/modulefiles/ $MODULEDIR
