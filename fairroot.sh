@@ -1,6 +1,6 @@
 package: FairRoot
 version: "%(tag_basename)s"
-tag: "v-17.10a"
+tag: dev
 source: https://github.com/FairRootGroup/FairRoot
 requires:
   - FairSoft
@@ -20,9 +20,7 @@ case $ARCHITECTURE in
   osx*)
     # If we preferred system tools, we need to make sure we can pick them up.
     [[ ! $BOOST_ROOT ]] && BOOST_ROOT=`brew --prefix boost`
-    [[ ! $ZEROMQ_ROOT ]] && ZEROMQ_ROOT=`brew --prefix zeromq`
     [[ ! $PROTOBUF_ROOT ]] && PROTOBUF_ROOT=`brew --prefix protobuf`
-    [[ ! $NANOMSG_ROOT ]] && NANOMSG_ROOT=`brew --prefix nanomsg`
     [[ ! $GSL_ROOT ]] && GSL_ROOT=`brew --prefix gsl`
     SONAME=dylib
   ;;
@@ -35,14 +33,14 @@ cmake                                                            \
       ${C_COMPILER:+-DCMAKE_C_COMPILER=$C_COMPILER}              \
       ${CXX_COMPILER:+-DCMAKE_CXX_COMPILER=$CXX_COMPILER}        \
       -DMACOSX_RPATH=OFF                                         \
-      -DCMAKE_CXX_FLAGS="$CXXFLAGS"                              \
+      -DCMAKE_CXX_FLAGS="$CXXFLAGS -std=c++${CXX_STANDARD}"      \
       -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE                       \
       -DROOTSYS=$ROOTSYS                                         \
       -DROOT_CONFIG_SEARCHPATH=$ROOT_ROOT/bin                    \
       -DDISABLE_GO=ON                                            \
       -DBUILD_EXAMPLES=ON                                        \
       -DCMAKE_INSTALL_PREFIX=$INSTALLROOT                        \
-      -DGTEST_ROOT=$GOOGLETEST_ROOT                              \
+      -DFAIRROOT_MODULAR_BUILD=ON                                \
       $SOURCEDIR
 
 cmake --build . --target install ${JOBS:+-- -j$JOBS}
