@@ -1,6 +1,6 @@
 package: nanomsg
 version: "%(tag_basename)s"
-tag: v1.1.2
+tag: 1.1.2
 source: https://github.com/nanomsg/nanomsg
 build_requires:
   - CMake
