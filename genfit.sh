@@ -4,11 +4,11 @@ source: https://github.com/GenFit/GenFit
 tag: master
 requires:
   - ROOT
-  - Eigen
+  - eigen
 build_requires:
   - CMake
 ---
-#!/bin.sh
+#!/bin/sh -e
 printenv
 echo "ROOT_INCLUDE_PATH = "$ROOT_INCLUDE_PATH
 echo "EIGEN_INCLUDE_PATH = "$EIGEN_INCLUDE_PATH
@@ -16,7 +16,6 @@ cmake $SOURCEDIR \
   -DCMAKE_INSTALL_PREFIX:PATH="$INSTALLROOT"
 make ${JOBS+-j $JOBS}
 make install
-#ROOT_ROOT
 
 #ModuleFile
 mkdir -p etc/modulefiles

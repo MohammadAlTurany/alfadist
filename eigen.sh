@@ -1,26 +1,11 @@
-package: Eigen
-version:  "3.3.4"
+package: eigen
+version: "%(tag_basename)s"
+tag: "3.3.4"
+source: https://github.com/eigenteam/eigen-git-mirror
 build_requires:
   - CMake
 ---
-#/bin/sh
-# download package
-URL="https://bitbucket.org/eigen/eigen/get/3.3.4.tar.bz2"
-file="eigen.tar.bz2"
-#download if newer than local copy
-if test -e "$file"
-then
-  #md5sum $file > $file".md5"
-  curl -Lo $file "-z '$file'" "$URL"
-else
-  curl -Lo $file "$URL"
-  #md5sum $file > $file".md5"
-fi
-# extract, but do'nt overwrite existing files
-#if md5sum $file -c $file".md5"
-#then
-tar -xjf $file -C $SOURCEDIR --strip-components=1
-#fi
+#!/bin/sh -e
 cmake $SOURCEDIR \
   -DCMAKE_INSTALL_PREFIX:PATH="$INSTALLROOT"
 make ${JOBS+-j $JOBS}
